@@ -1,15 +1,21 @@
 const { Schema, model } = require('mongoose');
 
 // Schema to create User model
+//TODO make username and email unique, required trimmed, email must match valid address
 const userSchema = new Schema(
   {
-    first: String,
-    last: String,
-    age: Number,
-    videos: [
+    username: String,
+    email: String,
+    thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Video',
+        ref: 'Thought',
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
       },
     ],
   },
@@ -23,18 +29,18 @@ const userSchema = new Schema(
   }
 );
 
-// Create a virtual property `fullName` that gets and sets the user's full name
+// Create a virtual property `friendCount` that retrieves length of users friends array
 userSchema
-  .virtual('fullName')
+  .virtual('friendCount')
   // Getter
   .get(function () {
-    return `${this.first} ${this.last}`;
-  })
-  // Setter to set the first and last name
-  .set(function (v) {
-    const first = v.split(' ')[0];
-    const last = v.split(' ')[1];
-    this.set({ first, last });
+    return `${this.username}`;
+  // })
+  // // Setter to set the first and last name
+  // .set(function (v) {
+  //   const first = v.split(' ')[0];
+  //   const last = v.split(' ')[1];
+  //   this.set({ first, last });
   });
 
 // Initialize our User model
