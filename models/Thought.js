@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 // Schema to create Post model
+// TODO add reaction schema
 const thoughtSchema = new Schema(
   {
     thoughtText: {
