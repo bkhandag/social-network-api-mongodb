@@ -65,4 +65,39 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
+
+  // create a reaction stored in a Thought
+  createReaction(req, res) {
+    Thought.create(req.body)
+      .then((thought) => {
+        return Thought.findOneAndUpdate(
+          { _id: req.body.thoughtId },
+          { $addToSet: { thoughts: thought._id } },
+          { new: true }
+        );
+      })
+      .then((user) =>
+        !user
+          ? res
+              .status(404)
+              .json({ message: 'Thought created, but found no user with that ID' })
+          : res.json('Created the Thought 🎉')
+      )
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+
+  // Delete a Reaction 
+  removeReaction(req, res) {
+    Thought.findOneAndRemove({ _id: req.params.ThoughtId })
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No such user exists' })
+          : res.json(thought)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
 };

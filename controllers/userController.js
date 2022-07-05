@@ -49,4 +49,24 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+
+
+  // Add a new Friend
+  addFriend(req, res) {
+    User.create(req.body)
+      .then((dbUserData) => res.json(dbUserData))
+      .catch((err) => res.status(500).json(err));
+  },
+
+  // Remove a friend 
+  removeFriend(req, res) {
+    User.findOneAndRemove({ _id: req.params.userId })
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No such user exists' })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
 };
