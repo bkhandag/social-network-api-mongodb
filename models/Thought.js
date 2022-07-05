@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
+const reactionSchema = require('./Reaction');
 
 // Schema to create Post model
-// TODO add reaction schema
 const thoughtSchema = new Schema(
   {
     thoughtText: {
@@ -15,7 +15,6 @@ const thoughtSchema = new Schema(
     },
     username: {
       type: String,
-      ref: 'User',
     },
     reactions: [reactionSchema],
   },
@@ -32,7 +31,7 @@ thoughtSchema
   .virtual('reactionCount')
   // Getter
   .get(function () {
-    return this.reactions;
+    return this.reactions.length;
   });
 
 // Initialize our Post model

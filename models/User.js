@@ -34,7 +34,7 @@ userSchema
   .virtual('friendCount')
   // Getter
   .get(function () {
-    return `${this.username}`;
+    return this.friends.length;
   // })
   // // Setter to set the first and last name
   // .set(function (v) {
